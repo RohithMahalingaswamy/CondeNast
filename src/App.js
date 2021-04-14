@@ -1,5 +1,5 @@
 import './App.css';
-import {LatestNews} from "./Components/LatestNews"
+import { LatestNews } from "./Components/LatestNews"
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NewsSpecific from './Components/NewsSpecific';
 
@@ -9,10 +9,10 @@ function App() {
       <Router>
         <Switch>
           <Route path="/" exact>
-          <LatestNews />
+            <LatestNews />
           </Route>
-<Route path="/news" exact component={NewsSpecific} />
-</Switch>
+          <Route path="/news" exact component={NewsSpecific} />
+        </Switch>
       </Router>
     </div>
   );
