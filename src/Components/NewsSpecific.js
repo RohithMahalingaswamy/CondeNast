@@ -32,7 +32,7 @@ const NewsSpecific = ({ history }) => {
         <div className="NewsSpecific">
             <div>
                 <button className="backbtn btn btn-secondary" onClick={() => history.goBack()}>Go Back</button>
-                <button className="sourcebtn btn btn-info">Source: {history.location.state.news.source.name}</button>
+                <button className="sourcebtn btn btn-primary">Source: {history.location.state.news.source.name}</button>
             </div>
             {handlerInfo()}
         </div>

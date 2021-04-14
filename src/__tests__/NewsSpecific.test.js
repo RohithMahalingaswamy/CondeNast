@@ -1,10 +1,8 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
+import { shallow } from "enzyme";
 import NewsSpecific from "../Components/NewsSpecific"
 
 describe("NewsSpecific component", () => {
-  // Tests will go here using `it` blocks
-
   describe('function', () => {
     const wrapper = shallow(<NewsSpecific />);
 
@@ -12,8 +10,6 @@ describe("NewsSpecific component", () => {
         expect(wrapper.exists()).toBe(true);
     });
     
-
     });
    
-
 });

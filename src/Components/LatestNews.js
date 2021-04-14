@@ -53,7 +53,7 @@ export const LatestNews = () => {
         <div className="latestNews">
             {Error ? <div>{Error}</div> :
                 <div className="headlines">
-                    <h1 className="headtitle">Latest News</h1>
+                    <h2 className="headtitle">Top Headlines</h2>
                     
                     <div>
                         <span className="keywords">Filter News By Keywords:</span>
@@ -69,7 +69,7 @@ export const LatestNews = () => {
 
 
                     {articles.length > 0 ? articles.map((ele, i) => {
-                        if (ele.description !== null) {
+                         if (ele.description !== null) {
                             return (
                                 <div key={i} className="cardtitle card bg-light mb-3">
                                     <div className="cardheader card-header">{ele.source.name || ele.source.id}</div>

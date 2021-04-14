@@ -3,8 +3,9 @@
 
   .headlines{
     .headtitle{
+      //color: darkred;
       margin-left: 5%;
-      text-shadow: 1px 1px navajowhite;
+      text-shadow: 1px 1px darkslategrey;
     }
 
     .select{
@@ -49,12 +50,12 @@
 
  .cardTitle{
   width: 20%;
-  border: 2px solid darkgrey
+  border: 1px solid darkgrey
  }
 .cardValue{
   width: 70%;
   margin-left: 3%;
-   border:2px solid darkgrey;
+   border:1px solid darkgrey;
    .card-text{
     text-align: left;
    }
