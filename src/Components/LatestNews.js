@@ -1,147 +1,95 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import { useHistory } from "react-router-dom";
-import { Filter } from './Filter'
 
-import './LatestNew.scss'
+import './LatestNews.scss'
 
 export const LatestNews = () => {
-    
+
     const history = useHistory();
-    const [articles, setarticles] = useState([])
-    const [arti, setarti] = useState([])
+    const [articles, setArticles] = useState([])
+    const [articlesData,setArticlesData] = useState([]);
     const [Error, setError] = useState("")
-    const [filter, setfilter] = useState("")
-    const [buttonBlur, setButtonBlur] = useState(true)
-    const [articlesError, setarticlesError] = useState("")
+    const [source ,setSource] = useState([])
 
     useEffect(() => {
         axios.get('/UkNews')
             .then(res => {
-                console.log("Res", res)
-                setarti(res.data.articles)
-                setarticles(res.data.articles)
+                console.log("sucess", res)
+                setArticlesData(res.data.articles)
+                    setArticles(res.data.articles)
+                    let sourceArr=[];
+                    res.data.articles.map((ele,i)=>{
+                        if(!sourceArr.includes(ele.source.name)){
+                            sourceArr.push(ele.source.name)
+
+                        }
+                    })
+                    setSource(sourceArr)
+                    console.log("Source",sourceArr)
+                
             })
             .catch(err => {
-                console.log("errorhandler", err)
-                setarticlesError("Error While Fetching");
+                console.log("catch", err)
+                setError("Error:500 Interval Server Error")
             })
     }, [])
+    const handleChange =(e)=>{
+        var filter=e.target.value;
+        console.log("handleChange",filter)
 
+        axios.post('/filterKeyword', { filter })
+        .then(res=>{
+            
+                setArticles(res.data.articles)
+        })
+        .catch(err=>{
+            console.log("errr",err)
+            setError("Error:500 Interval Server Error")
 
-    console.log("resppppppp", articles)
-    const handler = (ele) => {
-        console.log("---------", ele)
+        })
+    
     }
-
-    const handleChange = (e) => {
-        e.preventDefault();
-
-        if (e.target.value === "") {
-            setButtonBlur(true)
-        }
-        else {
-            setButtonBlur(false)
-            setfilter(e.target.value)
-            setError("")
-
-        }
-
-
+    const buttonHandler =()=>{
+setArticles(articlesData);
     }
-
-    console.log("filter", filter)
-
-    const handlerSubmit = (e) => {
-        e.preventDefault();
-
-        if (filter.length > 2) {
-            //setError("error")
-            setarticles([])
-            console.log("filter===", filter.length)
-            axios.post('/filterKeyword', { filter })
-                .then(res => {
-                    setarticles(res.data.articles)
-                    setButtonBlur(true)
-                    setError("")
-                    setfilter("");
-
-                    console.log("ressssssssssssssssssssss", res)
-                })
-                .catch(err => {
-                    setarticlesError("Error While Fetching");
-
-                })
-        }
-        else {
-            setError("Enter 3 characters atleast")
-        }
-    }
-    const handlerReset = () => {
-        setError("")
-        console.log("resetttt")
-        setfilter("");
-        setButtonBlur(true)
-
-        setarticles(arti)
-
-    }
-
     return (
+        <div>
+            {Error ? <div>{Error}</div> :
+                <div className="headlines">
+                    <h1>Latest News</h1>
+                    <div>
+                        <span>Filter News By Keywords:</span>
+                    <select defaultValue={{ label: "Select Dept", value: 0 }} onChange={handleChange}>
+                        <option disabled value="filter">Filter By KeyWords</option>
+     {source.map((ele,i)=>{
+         return     <option value={ele}>{ele}</option>
+     })}
+   
+  </select>
+  <button type="button" className="btn btn-secondary" style={{margin:'1%'}} onClick={buttonHandler}>Reset</button>
 
-        <div className="headlines">
-            <h1>Latest News</h1>
-            <div className="formInput">
-                <div>
-                    <form onSubmit={handlerSubmit}>
-                    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="text" value={filter} onkeypress="var key = event.keyCode || event.charCode; return ((key  >= 48 && key  <= 57) || key == 8)" onChange={handleChange}  placeholder="Enter email" />
-    </div>
+                    </div>
+                    
 
+{articles.length>0 ? articles.map((ele, i) => {
+                            if (ele.description !== null) {
+                                return (
+                                    <div key={i} className="card bg-light mb-3" style={{ margin: "0% 3%" }}>
+                                        <div className="card-header" style={{ fontSize: "15px", fontWeight: "300" }}>{ele.source.name || ele.source.id}</div>
+                                        <div className="">
+                                            <p key={i} className="news" onClick={() => history.push({ pathname: '/news', state: { news: ele } })}>{ele.description}</p>
+                                        </div>
+                                    </div>
 
-                        
-                        {/* <input style={{width: "116%"}} type="text" placeholder="Enter at least 3 characters" value={filter} onChange={handleChange} />
-                        <div className="errorplace">{Error} </div> */}
-                    </form>
+                                )
+
+                            }
+                        })  :<div className="spinner-border text-primary" style={{margin: "5%"}}></div>
+  }
+                    
                 </div>
-
-                <div className="buttonReset"> <button disabled={buttonBlur} onClick={handlerReset}>Reset</button></div>
-
-            </div>
-            {/* <div className="container">
-  <form>
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="text" placeholder="Enter email" name="email" />
-    </div>
-    <div class="form-group">
-      <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd" />
-    </div>
-
-  </form>
-</div> */}
-
-            {/* <Filter /> */}
-            {articles.length > 0 ? articles.map((ele, i) => {
-                if (ele.description !== null) {
-                    return (
-                        <div className="card bg-light mb-3" style={{ margin: "0% 3%" }}>
-                            <div className="card-header" style={{ fontSize: "15px", fontWeight: "300" }}>{ele.source.name || ele.source.id}</div>
-                            <div className="">
-                                <p key={i} className="news" onClick={() => history.push({ pathname: '/news', state: { news: ele } })}>{ele.description}</p>
-                            </div>
-                        </div>
-
-                    )
-                    //<li key={i} className="news" onClick={() => history.push({ pathname: '/news', state: { news: ele } })}>{ele.description}</li>
-
-                }
-            }) : 
-            <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>}
+            }
 
         </div>
     )

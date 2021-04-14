@@ -1,38 +1,40 @@
-import React, { useState } from 'react'
-import { withRouter } from 'react-router-dom'
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 const NewsSpecific = ({ history }) => {
-    console.log("history", history);
-    const [listNews, setlistnews] = useState([history.location.state.news])
-    var entriesList = Object.entries(history.location.state.news);
-    console.log("----------", entriesList);
-    console.log("$$$$$$$$$$$$$$$$$", listNews);
-    // const handlerList=()=>{
-    //     if(entriesList.length>1){
-    //         entriesList.forEach(element => {
 
-    //      }); ([key, value] of entriesList) {
-    // console.log("keys",key);      }
-    // }
-    //     }
+    const handlerInfo = () => {
+        const historyData = history.location.state.news;
+        const keys = Object.keys(historyData);
 
-    const historicalData = history.location.state.news;
-    return (
-        <div>
-            <button onClick={() => history.goBack()}>Back</button>
-            <div>
-                <div>
-                    {Object.keys(historicalData).map((key) => {
-                        return (
-                            <div key={key}>
-                                <h1>{key}</h1>
-
+        return keys.map((key, index) => {
+            if (typeof historyData[key] !== "object") {
+                return (
+                    <div key={index} style={{width: "100%", display: "flex", margin: "2% 3%"}}>
+                        <div class="card bg-light" style={{ width: "20%" }}>
+                            <div class="card-body text-center">
+                                <p class="card-text">{key.toUpperCase()}</p>
                             </div>
-                        )
-                    })}
-                </div>
+                        </div>
+
+                        <div class="card bg-light" style={{width: "70%",marginLeft: "3%" }}>
+                            <div class="card-body text-center">
+                                <p class="card-text" style={{ textAlign: "left" }}>{historyData[key]}</p>
+                            </div>
+                        </div>
+                    </div>)
+            }
+        });
+    }
+    return (
+        <div className="NewsSpecific">
+            <div>
+                <button id="source" className="btn btn-secondary" style={{ float: "left", margin: "1% 3%" }} onClick={() => history.goBack()}>Go Back</button>
+                <button  className="btn btn-info" style={{ margin: "1% 3%", cursor: "default" }}>Source: {history.location.state.news.source.name}</button>
             </div>
+            {handlerInfo()}
         </div>
+
     )
 }
 
