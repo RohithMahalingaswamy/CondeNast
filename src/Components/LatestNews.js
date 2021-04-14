@@ -17,7 +17,7 @@ export const LatestNews = () => {
                 setArticlesData(res.data.articles)
                 setArticles(res.data.articles)
                 let sourceArr = [];
-                res.data.articles.map((ele, i) => {
+                res.data.articles.forEach((ele, i) => {
                     if (!sourceArr.includes(ele.source.name)) {
                         sourceArr.push(ele.source.name)
 
@@ -31,17 +31,20 @@ export const LatestNews = () => {
             })
     }, [])
 
+    //filter handler to filter news using the keyword 
     const handleChange = (e) => {
         var filter = e.target.value;
         axios.post('/filterKeyword', { filter })
+
             .then(res => {
                 setArticles(res.data.articles)
             })
+            //error in response
             .catch(err => {
                 setError("Error:500 Interval Server Error")
             })
     }
-
+   //reset buutonhandler
     const buttonHandler = () => {
         setArticles(articlesData);
     }
@@ -51,12 +54,13 @@ export const LatestNews = () => {
             {Error ? <div>{Error}</div> :
                 <div className="headlines">
                     <h1 className="headtitle">Latest News</h1>
+                    
                     <div>
                         <span className="keywords">Filter News By Keywords:</span>
                         <select className="select" onChange={handleChange}>
                             <option disabled value="filter">Filter By KeyWords</option>
                             {source.map((ele, i) => {
-                                return <option value={ele}>{ele}</option>
+                                return <option key={i} value={ele}>{ele}</option>
                             })}
 
                         </select>

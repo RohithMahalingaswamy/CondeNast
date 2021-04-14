@@ -6,21 +6,22 @@ const NewsSpecific = ({ history }) => {
 
     const handlerInfo = () => {
         const historyData = history.location.state.news;
-        const keys = Object.keys(historyData);
-
+        const keys = Object.keys(historyData); //extracted the keys from the historydata
+       
+        //loop over the keys and return the value
         return keys.map((key, index) => {
             if (typeof historyData[key] !== "object") {
                 return (
                     <div className="historyInfo" key={index}>
-                        <div class="cardTitle card bg-light">
-                            <div class="card-body text-center">
-                                <p class="card-text">{key.toUpperCase()}</p>
+                        <div className="cardTitle card bg-light">
+                            <div className="card-body text-center">
+                                <p className="card-text">{key.toUpperCase()}</p>
                             </div>
                         </div>
 
-                        <div class="cardValue card bg-light">
-                            <div class="card-body text-center">
-                                <p class="card-text">{historyData[key]}</p>
+                        <div className="cardValue card bg-light">
+                            <div className="card-body text-center">
+                                <p className="card-text">{historyData[key]}</p>
                             </div>
                         </div>
                     </div>)
