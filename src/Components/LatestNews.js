@@ -72,9 +72,9 @@ export const LatestNews = () => {
 
                         return (
 
-                            <div key={i} className="cardtitle card bg-light mb-3">
+                            <div>
                                 {ele.description &&
-                                    <div>
+                                    <div key={i} className="cardtitle card bg-light mb-3">
                                         <div className="cardheader card-header">{ele.source.name || ele.source.id}</div>
 
                                         <p key={i} className="news" onClick={() => history.push({ pathname: '/news', state: { news: ele } })}>{ele.description}</p>
