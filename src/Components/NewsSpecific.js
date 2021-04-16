@@ -7,25 +7,32 @@ const NewsSpecific = ({ history }) => {
     const handlerInfo = () => {
         const historyData = history.location.state.news;
         const keys = Object.keys(historyData); //extracted the keys from the historydata
-       
+
         //loop over the keys and return the value
         return keys.map((key, index) => {
-            if (typeof historyData[key] !== "object") {
-                return (
-                    <div className="historyInfo" key={index}>
+
+            return (
+                <div className="historyInfo" key={index}>
+                    {typeof historyData[key] !== "object" &&
                         <div className="cardTitle card bg-light">
                             <div className="card-body text-center">
                                 <p className="card-text">{key.toUpperCase()}</p>
                             </div>
                         </div>
+                    }
 
+                    {typeof historyData[key] !== "object" &&
                         <div className="cardValue card bg-light">
+
                             <div className="card-body text-center">
                                 <p className="card-text">{historyData[key]}</p>
                             </div>
                         </div>
-                    </div>)
-            }
+
+                    }
+
+                </div>)
+
         });
     }
     return (

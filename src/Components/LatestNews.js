@@ -44,7 +44,7 @@ export const LatestNews = () => {
                 setError("Error:500 Interval Server Error")
             })
     }
-   //reset buutonhandler
+    //reset buutonhandler
     const buttonHandler = () => {
         setArticles(articlesData);
     }
@@ -54,7 +54,7 @@ export const LatestNews = () => {
             {Error ? <div>{Error}</div> :
                 <div className="headlines">
                     <h2 className="headtitle">Top Headlines</h2>
-                    
+
                     <div>
                         <span className="keywords">Filter News By Keywords:</span>
                         <select className="select" onChange={handleChange}>
@@ -69,18 +69,22 @@ export const LatestNews = () => {
 
 
                     {articles.length > 0 ? articles.map((ele, i) => {
-                         if (ele.description !== null) {
-                            return (
-                                <div key={i} className="cardtitle card bg-light mb-3">
-                                    <div className="cardheader card-header">{ele.source.name || ele.source.id}</div>
-                                    
+
+                        return (
+
+                            <div key={i} className="cardtitle card bg-light mb-3">
+                                {ele.description &&
+                                    <div>
+                                        <div className="cardheader card-header">{ele.source.name || ele.source.id}</div>
+
                                         <p key={i} className="news" onClick={() => history.push({ pathname: '/news', state: { news: ele } })}>{ele.description}</p>
-                                    
-                                </div>
+                                    </div>
+                                }
+                            </div>
 
-                            )
+                        )
 
-                        }
+
                     }) : <div className="spinner-border text-primary" style={{ margin: "5%" }}></div>
                     }
 
